@@ -13,7 +13,7 @@ class Main {
         let price: Float
     }
     var myWallet: Double = 7
-    var myCart: Float = 0
+    
     var mainMenu: [Menu] = []
     
     init() {
@@ -31,6 +31,7 @@ class Main {
     }
     
     func greet() {
+        print("----------------------------------------------")
         print("아래 메뉴판을 보시고 메뉴를 골라 입력해주세요.\n")
         print("[ SHAKESHACK MENU ]")
         
@@ -43,13 +44,10 @@ class Main {
             
             print("\(item.no). \(item.name)\(nameSpaces) | \(item.info)\(infoSpaces)")
         }
-        print(
-            """
-            \n[ ORDER MENU ]
-            5. Order    | 장바구니 확인 후 주문합니다.
-            6. Cancel   | 진행중인 주문을 취소합니다.
-            """
-        )
+        print("\n[ ORDER MENU ]")
+        print("5. Order    | 장바구니 확인 후 주문합니다.")
+        print("6. Cancel   | 진행중인 주문을 취소합니다.")
+        print("----------------------------------------------")
         if let input = readLine(), let input = Int(input){
             switch(input){
             case 0: exit(0)
@@ -71,6 +69,7 @@ class Main {
         }
     }
     func cart(_ menu: String, _ price: String){
+        print("----------------------------------------------")
         print("위 메뉴를 장바구니에 추가하시겠습니까?")
         print("1.확인     2.취소")
         let input:Int = Int(readLine()!)!
@@ -88,6 +87,7 @@ class Main {
         {
             print("잘못 입력하셨습니다. 다시 입력해주세요.")
         }
+        print("----------------------------------------------")
     }
 }
 
@@ -97,8 +97,8 @@ class Order: Main{
     var totalPrice: Double = 0
     
     func addCart(_ name: String, _ price: String){
-        item += [name]
-        prices += [price]
+        item.append(name)
+        prices.append(price)
         totalPrice += Double(price)!
     }
     func deleteCart(){
@@ -109,6 +109,12 @@ class Order: Main{
     }
     
     func greet1(){
+        if(item.count == 0)
+        {
+            print("장바구니가 비었습니다. 이전 메뉴로 돌아갑니다.")
+            super.greet()
+        }
+        
         print("\n아래와 같이 주문하시겠습니까?")
         print("[ Orders ]")
         for i in 0..<item.count{
@@ -126,6 +132,8 @@ class Order: Main{
             {
                 print("구매성공 !!!!")
                 myWallet -= totalPrice
+                print("현재 잔액은 \(myWallet)w 입니다.")
+                super.greet()
             }
             else
             {
@@ -167,6 +175,7 @@ class Burgers: Main{
     }
     
     func greet1() {
+        print("----------------------------------------------------------------------------------------")
         print("[ Burgers MENU ]")
         let nameLength = 25
         let infoLength = 40
@@ -178,6 +187,7 @@ class Burgers: Main{
             
             print("\(item.no). \(item.name)\(nameSpaces) | W\(item.price)\(priceSpaces) | \(item.info)\(infoSpaces)")
         }
+        print("----------------------------------------------------------------------------------------")
         let input:Int = Int(readLine()!)!
 
         switch(input){
